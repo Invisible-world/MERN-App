@@ -1,13 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { Link, Navigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 const Navbar = () => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    setUser(loggedInUser);
-  }, [user]);
-  console.log(`user from navbar ${user}`);
+  const { state, dispatch } = useContext(AppContext);
 
   return (
     <div>
@@ -33,7 +28,7 @@ const Navbar = () => {
                 Home
               </Link>
             </li>
-            {user && user ? (
+            {state && state.token ? (
               ""
             ) : (
               <li className="nav-item">
@@ -42,7 +37,7 @@ const Navbar = () => {
                 </Link>
               </li>
             )}
-            {user && user ? (
+            {state && state.token ? (
               "null"
             ) : (
               <li className="nav-item">
@@ -52,13 +47,14 @@ const Navbar = () => {
               </li>
             )}
 
-            {user && user ? (
+            {state && state.token ? (
               <li className="nav-item">
                 <Link
                   to="/"
                   className="nav-link"
                   onClick={() => {
                     localStorage.clear();
+                    dispatch({ type: "LOGOUT_USER" });
                     Navigate("/login");
                   }}
                 >

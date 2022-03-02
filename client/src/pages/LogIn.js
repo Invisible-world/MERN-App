@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 // import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
+
 const LogIn = () => {
   const [userFormData, setUserFormData] = useState(null);
   let navigate = useNavigate();
-
+  const { state, dispatch } = useContext(AppContext);
+  // console.log(dispatch({ type: "LOGIN_USER" }));
   const handleInputChange = (e) => {
-    console.log(e);
+    // console.log(e);
     const { name, value } = e.target;
     setUserFormData((prevState) => ({ ...prevState, [name]: value }));
   };
@@ -33,10 +36,12 @@ const LogIn = () => {
 
       console.log(response);
       localStorage.setItem("user", JSON.stringify(response.data));
-
+      // debugger;
+      dispatch({ type: "LOGIN_USER", payload: response.data });
       setUserFormData(null);
+
       navigate("/");
-      console.log(response.data);
+      console.log(state);
     }
   };
 

@@ -10,36 +10,30 @@ import Dashboard from "./pages/Dashboard";
 import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
 import ProtectedRoutes from "../src/ProtectedRoutes";
-
+import { AuthContext } from "./context/AppContext";
 function App() {
-  // const [userData, setUserData] = useState(null);
-  // const user = true;
-  // console.log(user);
-  // const Navigate = useNavigate();
   return (
-    <div>
-      <Router>
-        <Navbar />
-        <Routes>
-          {/* <Route path="/" element={<Dashboard />}></Route> */}
+    <>
+      <AuthContext>
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<ProtectedRoutes />}>
+              <Route path="/" element={<Dashboard />}></Route>
+            </Route>
+            <Route path="login" element={<LogIn />}></Route>
 
-          <Route path="/" element={<ProtectedRoutes />}>
-            <Route path="/" element={<Dashboard />}></Route>
-          </Route>
+            <Route path="signup" element={<SignUp />}></Route>
 
-          <Route path="login" element={<LogIn />}></Route>
-
-          <Route path="signup" element={<SignUp />}></Route>
-          {/* <Route path="logout" element={<Logout />}></Route> */}
-
-          {/* <ProtectedRoutes
+            {/* <ProtectedRoutes
             path="/"
             exact
             element={user ? <Dashboard /> : <LogIn />}
           /> */}
-        </Routes>
-      </Router>
-    </div>
+          </Routes>
+        </Router>
+      </AuthContext>
+    </>
   );
 }
 export default App;
