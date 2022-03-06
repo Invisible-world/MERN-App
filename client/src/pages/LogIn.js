@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
 // import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 
 const LogIn = () => {
@@ -97,14 +97,16 @@ const LogIn = () => {
                 className="form-text text-center mb-5 text-dark"
               >
                 Not Registered?{" "}
-                <a
-                  className="text-dark fw-bold"
-                  style={style.a}
-                  href="google.com"
-                >
-                  {" "}
-                  Create an Account
-                </a>
+                <Link to="/signup">
+                  <a
+                    className="text-dark fw-bold"
+                    style={style.a}
+                    href="google.com"
+                  >
+                    {" "}
+                    Create an Account
+                  </a>
+                </Link>
               </div>
             </form>
           </div>

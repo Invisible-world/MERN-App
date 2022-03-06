@@ -51,23 +51,8 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
   // Check for user email
   const user = await User.findOne({ email });
-  console.log(user);
   //Debugging bycrpt compare method requires args of type string
-  // console.log(user.password, password);
-  // const type1 = typeof password;
-  // const type2 = typeof user.password;
-  // console.log(type1, type2);
-  // console.log(bcrypt);
-  // res.json({
-  //   _id: user.id,
-  //   name: user.name,
-  //   email: user.email,
-  //   token: generateToken(user._id),
-  // });
-
   const stringPassword = password.toString();
-  console.log(stringPassword);
-  console.log(await bcrypt.compare(stringPassword, user.password));
   if (user && (await bcrypt.compare(stringPassword, user.password))) {
     res.json({
       _id: user.id,

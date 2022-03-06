@@ -9,11 +9,13 @@ var corsOptions = {
   origin: "http://localhost:3000",
   optionsSuccessStatus: 200, // For legacy browser support
 };
-
-app.use(cors(corsOptions));
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
+app.use(cors(corsOptions));
 
 app.use("/api/v1/users", require("./routes/usersRoutes"));
+app.use("/api/v1/userTodos", require("./routes/userTodosRoutes"));
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
+// MONGO_URI=mongodb+srv://root:root@cluster0.hnvax.mongodb.net/MernApp?retryWrites=true&w=majority

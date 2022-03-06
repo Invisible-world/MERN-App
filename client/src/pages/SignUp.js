@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 const SignUp = () => {
   const [userData, setUserData] = useState(null);
-
   let navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,7 +45,21 @@ const SignUp = () => {
               style={style.cardbodyColor}
               onSubmit={handleSubmit}
             >
-              <div className="mb-3">
+              <div
+                style={{
+                  textAlign: "center",
+                  marginTop: "-1rem",
+                  padding: "0.2rem",
+                  backgroundColor: "black",
+                  border: "1px solid #000",
+                  color: "white",
+                  marginBottom: "1rem",
+                }}
+              >
+                <h3>Registration Form</h3>
+              </div>
+
+              <div className="mb-3 mt-2">
                 <input
                   type="text"
                   className="form-control"
@@ -86,7 +99,7 @@ const SignUp = () => {
                   value={userData?.cpassword}
                 />
               </div>
-              <div className="text-center">
+              <div className="text-center mt-2">
                 <button
                   type="submit"
                   className="btn px-5 mb-5 w-100"
@@ -101,10 +114,16 @@ const SignUp = () => {
                 className="form-text text-center mb-5 text-dark"
               >
                 Already Have An Account?{" "}
-                <a className="text-dark fw-bold" style={style.a}>
-                  {" "}
-                  Register
-                </a>
+                <Link to="/login">
+                  <a
+                    className="text-dark fw-bold"
+                    style={style.a}
+                    href="/login"
+                  >
+                    {" "}
+                    Login
+                  </a>
+                </Link>
               </div>
             </form>
           </div>
