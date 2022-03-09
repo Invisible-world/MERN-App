@@ -3,7 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 const Navbar = () => {
   const { state, dispatch } = useContext(AppContext);
-
+  const isUser = useUser();
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -23,12 +23,21 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
-            <li className="nav-item active">
-              <Link to="/" className="nav-link">
-                Home
-              </Link>
-            </li>
-            {state && state.token ? (
+            {isUser && isUser ? (
+              <li className="nav-item active">
+                <Link to="/dashboard" className="nav-link">
+                  Dashboard
+                </Link>
+              </li>
+            ) : (
+              <li className="nav-item active">
+                <Link to="/" className="nav-link">
+                  Home
+                </Link>
+              </li>
+            )}
+
+            {isUser && isUser ? (
               ""
             ) : (
               <li className="nav-item">
@@ -37,7 +46,7 @@ const Navbar = () => {
                 </Link>
               </li>
             )}
-            {state && state.token ? (
+            {isUser && isUser ? (
               "null"
             ) : (
               <li className="nav-item">
@@ -47,8 +56,8 @@ const Navbar = () => {
               </li>
             )}
 
-            {state && state.token ? (
-              <li className="nav-item">
+            {isUser && isUser ? (
+              <li className="nav-item ">
                 <Link
                   to="/"
                   className="nav-link"
@@ -62,11 +71,28 @@ const Navbar = () => {
                 </Link>
               </li>
             ) : null}
+
+            {isUser && isUser ? (
+              <li className="nav-item " style={{ float: "right" }}>
+                <Link to="/addTodo" className="nav-link">
+                  Create Todo
+                </Link>
+              </li>
+            ) : null}
           </ul>
         </div>
       </nav>
     </div>
   );
+};
+
+const useUser = () => {
+  const user = localStorage.getItem("user");
+  if (user) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 export default Navbar;

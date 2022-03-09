@@ -4,8 +4,10 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 
-const LogIn = () => {
+const LogIn = (props) => {
   const [userFormData, setUserFormData] = useState(null);
+  console.log(props);
+
   let navigate = useNavigate();
   const { state, dispatch } = useContext(AppContext);
   // console.log(dispatch({ type: "LOGIN_USER" }));
@@ -40,7 +42,7 @@ const LogIn = () => {
       dispatch({ type: "LOGIN_USER", payload: response.data });
       setUserFormData(null);
 
-      navigate("/");
+      navigate("/dashboard");
       console.log(state);
     }
   };

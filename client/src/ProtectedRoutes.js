@@ -1,18 +1,17 @@
 import React from "react";
-import { Navigate, Route, Outlet } from "react-router-dom";
-
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+// import { AppContext } from "./context/AppContext";
 const ProtectedRoutes = () => {
-  //   const auth = localStorage.getItem('user'); // determine if authorized, from context or however you're doing it
-  const user = JSON.parse(localStorage.getItem("user"));
-  //   console.log(user.token);
+  // const { state } = useContext(AppContext);
+  let location = useLocation();
 
-  //   if (user.token) {
-  //     var token = true;
-  //   }
-  // determine if authorized, from context or however you're doing it
-  // If authorized, return an outlet that will render child elements
-  // If not, return element that will navigate to login page
-  return user ? <Outlet /> : <Navigate to="/login" />;
+  const auth = JSON.parse(localStorage.getItem("user"));
+  console.log(auth);
+  return auth && auth.token ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/login" state={{ from: location }} replace />
+  );
 };
 
 export default ProtectedRoutes;

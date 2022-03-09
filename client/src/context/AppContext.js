@@ -7,6 +7,7 @@ const initialState = {
   isError: false,
   token: null,
   user: null,
+  userTodo: null,
 };
 
 function AppReducer(state = initialState, action) {
@@ -27,6 +28,12 @@ function AppReducer(state = initialState, action) {
         isAuthenticated: false,
         token: null,
       };
+    case "GET_USER_TODO":
+      // debugger;
+      return {
+        ...state,
+        userTodo: payload && payload ? payload : "Where is Todo :)",
+      };
 
     default:
       return state;
@@ -35,6 +42,7 @@ function AppReducer(state = initialState, action) {
 
 export const AuthContext = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
+  console.log(state);
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>

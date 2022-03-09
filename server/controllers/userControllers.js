@@ -53,6 +53,7 @@ const loginUser = async (req, res) => {
   const user = await User.findOne({ email });
   //Debugging bycrpt compare method requires args of type string
   const stringPassword = password.toString();
+
   if (user && (await bcrypt.compare(stringPassword, user.password))) {
     res.json({
       _id: user.id,
