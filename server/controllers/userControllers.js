@@ -49,6 +49,10 @@ const registerUser = async (req, res) => {
 // @access  Public
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    res.status(400).send("Please add all required fields");
+  }
+
   // Check for user email
   const user = await User.findOne({ email });
   //Debugging bycrpt compare method requires args of type string
@@ -63,6 +67,7 @@ const loginUser = async (req, res) => {
     });
   } else {
     res.status(400).send("Invalid credentials");
+    // debugger;
     throw new Error("Invalid credentials");
   }
 };

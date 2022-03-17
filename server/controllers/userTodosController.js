@@ -10,11 +10,7 @@ const createUserTodo = async (req, res) => {
   const { title, completed, description } = req.body;
   // console.log(req.body);
   // console.log(req.user);
-  if (
-    !title ||
-    (completed === undefined && completed === null) ||
-    !description
-  ) {
+  if (!title || completed === undefined || completed === null || !description) {
     res.status(400).send("Please add all fields");
     throw new Error("Please add all fields");
   }
@@ -55,7 +51,8 @@ const getUserTodo = async (req, res) => {
 };
 
 // @desc    Put/update  user Todo
-// @route   Post /api/v1/userTodos/create/:id
+// @route   Post /api/v1/userTodos/update/:id
+
 // @access  Public
 const updateUserTodo = async (req, res) => {
   const { title, completed, description } = req.body;
@@ -110,7 +107,7 @@ const deleteUserTodo = async (req, res) => {
   // console.log(todoToBeUpdated[0].userId.toString());
   // console.log();
   if (todoToBeDeleted[0].userId.toString() !== req.user._id.toString()) {
-    res.status(400).send("Donot have authorization to update  ");
+    res.status(400).send("Donot have authorization to delete  ");
   }
   const deleteTodo = await UserTodo.findByIdAndDelete({ _id: req.params._id });
 

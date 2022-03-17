@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import swal from "sweetalert";
 const SignUp = () => {
   const [userData, setUserData] = useState(null);
   let navigate = useNavigate();
@@ -15,24 +15,66 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    debugger;
-    const response = await axios.post(
-      `http://localhost:5000/api/v1/users/register`,
-      userData
-    );
-    if (response && (response.status === 201 || response.sttaus === 200)) {
-      toast.success("Success Notification !", { autoClose: 15000 });
-      setUserData({
-        name: "",
-        email: "",
-        password: "",
-        cpassword: "",
+
+    if (!userData) {
+      swal({
+        title: "Error",
+        text: "User registration data not found",
+        icon: "error",
       });
-      navigate("/login");
-    } else {
-      console.log(response.data);
-      alert(`${response.data}`);
+      return;
     }
+
+    if (
+      !userData.name ||
+      !userData.name ||
+      !userData.password ||
+      !userData.cpassword
+    ) {
+      swal({
+        title: "Error",
+        text: "Please fill up the required fields",
+        icon: "error",
+      });
+      return;
+    }
+    //check Password-fix this after dinner
+    const { password, cpassword } = userData;
+    if (password.length === cpassword.length) {
+      const isEqual = password === cpassword;
+      if (isEqual === false) {
+        swal({
+          title: "Error",
+          text: "Password doens't match",
+          icon: "error",
+        });
+        return;
+      }
+    }
+
+    debugger;
+    await axios
+      .post(`http://localhost:5000/api/v1/users/register`, userData)
+      .then((res) => {
+        if (res && (res.status === 201 || res.status === 200)) {
+          setUserData({
+            name: "",
+            email: "",
+            password: "",
+            cpassword: "",
+          });
+          swal({
+            title: "Success",
+            text: "User successfully register",
+            icon: "success",
+          });
+          navigate("/login");
+        }
+      })
+      .err((err) => {
+        debugger;
+        swal("Error", { err }, "error");
+      });
   };
 
   return (
@@ -107,7 +149,6 @@ const SignUp = () => {
                 >
                   Register
                 </button>
-                <ToastContainer />
               </div>
               <div
                 id="emailHelp"
@@ -132,6 +173,7 @@ const SignUp = () => {
     </div>
   );
 };
+
 const style = {
   btnColor: {
     backgroundColor: "#0e1c36",
@@ -153,4 +195,5 @@ const style = {
     cursor: "pointer",
   },
 };
+
 export default SignUp;

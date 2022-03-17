@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useUser } from "../useUser";
 import "./AddTodo.css";
+import swal from "sweetalert";
 
 const AddTodo = () => {
   const [todo, setTodo] = useState(null);
-  const [message, setMessage] = useState(null);
   const user = useUser();
 
   const handleChange = (e) => {
@@ -15,36 +15,50 @@ const AddTodo = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!todo.title || !todo.description) {
+    if (!todo || !todo.title || !todo.description) {
+      swal({
+        title: "Error",
+        text: "Please add all  required field",
+        icon: "warning",
+      });
       return;
-    }
-
-    const finalTodo = { ...todo, completed: false };
-    console.log(finalTodo);
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/userTodos/create",
-        finalTodo,
-        {
-          headers: {
-            Authorization: `Bearer ${user && user.token}`,
-          },
-        }
-      );
-      debugger;
-      if (response && response.data) {
-        debugger;
-        console.log("sucess");
-        setMessage({ message: "Todo Succesfully created" });
-
-        setTodo({
-          title: "",
-          description: "",
-        });
-        debugger;
+    } else if (!user) {
+      swal({
+        title: "Error",
+        text: "Not authorized -login ",
+        icon: "warning",
+      });
+      return;
+    } else {
+      let finalTodo;
+      if (todo) {
+        finalTodo = { ...todo, completed: false };
       }
-    } catch (error) {
-      throw new Error(error);
+      try {
+        const response = await axios.post(
+          "http://localhost:5000/api/v1/userTodos/create",
+          finalTodo,
+          {
+            headers: {
+              Authorization: `Bearer ${user && user.token}`,
+            },
+          }
+        );
+        if (response && response.status === 200) {
+          swal("Success", " Created Successfully...", "success");
+          setTodo({
+            title: "",
+            description: "",
+          });
+        }
+      } catch (error) {
+        swal({
+          title: "Error",
+          text: { error },
+          icon: "error",
+        });
+        throw new Error(error);
+      }
     }
   };
 
@@ -55,7 +69,6 @@ const AddTodo = () => {
           <div className="col-md-8">
             <form className="regForm" onSubmit={handleSubmit}>
               <h1 className="register">Add Todo</h1>
-              {message}
               <div className="tab">
                 <h6>Title</h6>
                 <p>
@@ -64,6 +77,7 @@ const AddTodo = () => {
                     type="text"
                     placeholder="Title..."
                     name="title"
+                    value={todo?.title}
                     onChange={handleChange}
                   />
                 </p>
@@ -73,6 +87,7 @@ const AddTodo = () => {
                 <p>
                   <textarea
                     type="text"
+                    value={todo?.description}
                     placeholder="Description..."
                     name="description"
                     onChange={handleChange}

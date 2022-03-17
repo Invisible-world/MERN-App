@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { Link, Navigate } from "react-router-dom";
+import swal from "sweetalert";
 import { AppContext } from "../context/AppContext";
 const Navbar = () => {
-  const { state, dispatch } = useContext(AppContext);
+  const { dispatch } = useContext(AppContext);
   const isUser = useUser();
   return (
     <div>
@@ -64,7 +65,8 @@ const Navbar = () => {
                   onClick={() => {
                     localStorage.clear();
                     dispatch({ type: "LOGOUT_USER" });
-                    Navigate("/login");
+                    swal("success", "Logout successfully", "success");
+                    Navigate("/");
                   }}
                 >
                   LogOut

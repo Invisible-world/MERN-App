@@ -9,6 +9,7 @@ import { AuthContext } from "./context/AppContext";
 import AddTodo from "./pages/AddTodo/AddTodo";
 import PageNotFound from "./pages/PageNotFound";
 import { Home } from "./pages/Home/Home";
+import Todo from "./pages/Todo/Todo";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route element={<ProtectedRoutes />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/addTodo" element={<AddTodo />}></Route>
+              <Route path="/todo/:id" element={<Todo />}></Route>
             </Route>
 
             {/* <Route path="/" element={<ProtectedRoutes />}>

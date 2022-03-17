@@ -29,7 +29,6 @@ function AppReducer(state = initialState, action) {
         token: null,
       };
     case "GET_USER_TODO":
-      // debugger;
       return {
         ...state,
         userTodo: payload && payload ? payload : "Where is Todo :)",

@@ -3,14 +3,16 @@ import axios from "axios";
 // import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
+import swal from "sweetalert";
+import { useUser } from "./useUser";
 
 const LogIn = (props) => {
   const [userFormData, setUserFormData] = useState(null);
-  console.log(props);
-
+  const user = useUser();
+  console.log(user);
   let navigate = useNavigate();
-  const { state, dispatch } = useContext(AppContext);
-  // console.log(dispatch({ type: "LOGIN_USER" }));
+  const { dispatch } = useContext(AppContext);
+
   const handleInputChange = (e) => {
     // console.log(e);
     const { name, value } = e.target;
@@ -18,32 +20,51 @@ const LogIn = (props) => {
   };
 
   const handleLogin = async (e) => {
-    // console.log(userFormData);
     e.preventDefault();
-    const response = await axios.post(
-      `http://localhost:5000/api/v1/users/login`,
-      userFormData
-    );
-    // debugger;
+    if (!userFormData) {
+      swal({
+        title: "Error",
+        text: "No credentials found",
+        icon: "error",
+      });
+      return;
+    } else if (!userFormData?.email || !userFormData?.password) {
+      swal({
+        title: "Warning",
+        text: "Please fill up the required fields",
+        icon: "error",
+      });
+      return;
+    } else {
+      const response = await axios.post(
+        `http://localhost:5000/api/v1/users/login`,
+        userFormData
+      );
 
-    if (response && (response.status === 201 || response.status === 200)) {
-      // debugger;
-      // toast.success("Success Notification !", { autoClose: 100 });
-      // setUserData({
-      //   name: "",
-      //   email: "",
-      //   password: "",
-      //   cpassword: "",
-      // });
+      if (response.status === 400) {
+        console.log(response.data);
+      }
+      if (!response.status === 200 || !response.status === 200) {
+        console.log(response.data);
+        swal("warning", "erro", "error");
+      }
 
-      console.log(response);
-      localStorage.setItem("user", JSON.stringify(response.data));
-      // debugger;
-      dispatch({ type: "LOGIN_USER", payload: response.data });
-      setUserFormData(null);
-
-      navigate("/dashboard");
-      console.log(state);
+      if (response && (response.status === 201 || response.status === 200)) {
+        localStorage.setItem("user", JSON.stringify(response.data));
+        dispatch({ type: "LOGIN_USER", payload: response.data });
+        setUserFormData({
+          email: "",
+          password: "",
+        });
+        navigate("/");
+      } else {
+        swal({
+          title: "Error",
+          text: "N/w Error",
+          icon: "error",
+        });
+        return;
+      }
     }
   };
 
