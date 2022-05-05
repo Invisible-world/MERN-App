@@ -9,7 +9,7 @@ const Dashboard = () => {
     getTransactions();
   }, []);
   const getTransactions = async () => {
-    const response = await axios.get(
+    const response = await axios.post(
       `https://jp-dev.cityremit.global/web-api/transaction-manager/v1/admin/dashboard/search`,
       {
         headers: {
