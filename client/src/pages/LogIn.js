@@ -56,7 +56,7 @@ const LogIn = (props) => {
           email: "",
           password: "",
         });
-        navigate("/");
+        navigate("/dashboard");
       } else {
         swal({
           title: "Error",
@@ -78,14 +78,14 @@ const LogIn = (props) => {
               style={style.cardbodyColor}
               onSubmit={handleLogin}
             >
-              <div className="text-center">
+              {/* <div className="text-center">
                 <img
                   src="https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397__340.png"
                   className="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
                   width="200px"
                   alt="profile"
                 />
-              </div>
+              </div> */}
 
               <div className="mb-3">
                 <input
@@ -152,7 +152,9 @@ const style = {
   },
 
   cardbodyColor: {
-    backgroundColor: "#ebf2fa",
+    backgroundColor: "#fff",
+    boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.12)",
+    borderRadius: "0.25%",
   },
 
   a: {

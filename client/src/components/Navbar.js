@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link, Navigate } from "react-router-dom";
 import swal from "sweetalert";
 import { AppContext } from "../context/AppContext";
+// import { useUser } from "../pages/useUser";
 const Navbar = () => {
   const { dispatch } = useContext(AppContext);
   const isUser = useUser();

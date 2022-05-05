@@ -4,10 +4,10 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 const ProtectedRoutes = () => {
   // const { state } = useContext(AppContext);
   let location = useLocation();
-
+  // debugger;
   const auth = JSON.parse(localStorage.getItem("user"));
   console.log(auth);
-  return auth && auth.token ? (
+  return auth && auth[0].jwt_token ? (
     <Outlet />
   ) : (
     <Navigate to="/login" state={{ from: location }} replace />

@@ -44,7 +44,8 @@ const AddTodo = () => {
             },
           }
         );
-        if (response && response.status === 200) {
+        // debugger;
+        if (response && response.statusText === "Created") {
           swal("Success", " Created Successfully...", "success");
           setTodo({
             title: "",
@@ -79,6 +80,7 @@ const AddTodo = () => {
                     name="title"
                     value={todo?.title}
                     onChange={handleChange}
+                    style={{ width: "100%" }}
                   />
                 </p>
               </div>
@@ -98,7 +100,13 @@ const AddTodo = () => {
               <div style={{ overflow: "auto" }} className="text-center">
                 <div>
                   {" "}
-                  <button type="submit">Create Todo</button>{" "}
+                  <button
+                    type="submit"
+                    className="heading"
+                    style={{ backgroundColor: "black" }}
+                  >
+                    Create Todo
+                  </button>{" "}
                 </div>
               </div>
             </form>

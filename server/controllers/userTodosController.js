@@ -1,7 +1,6 @@
-const jwt = require("jsonwebtoken");
-// const bcrypt = require("bcryptjs");
-const UserTodo = require("../model/userTodos");
-const User = require("../model/userModel");
+const db = require("../model/index");
+
+const UserTodo = db.userTodo;
 
 // @desc    Register new user Todo
 // @route   POST /api/v1/userTodos/create
